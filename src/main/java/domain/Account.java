@@ -39,6 +39,12 @@ public class Account {
         transactionList = params.stream().map(Transaction::new).toList();
     }
 
+    public String transactionsAsString() {
+        StringBuilder sb = new StringBuilder();
+        transactionList.forEach(txn -> sb.append(txn).append("\n"));
+        return sb.toString();
+    }
+
     public void printTransactions() {
         transactionList.forEach(System.out::println);
     }

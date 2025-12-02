@@ -8,10 +8,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class DatabaseManager {
+
+    private static final String JDBC_URL =
+            "jdbc:postgresql://aws-1-us-east-1.pooler.supabase.com:5432/postgres?user=postgres.kjcrwhinbakxmxnzjswk&password=380ATMProject";
     private final HikariDataSource ds;
 
-    public DatabaseManager(HikariDataSource ds) {
-        this.ds = ds;
+    public DatabaseManager() {
+        this.ds = getDataSource();
+    }
+
+    public static HikariDataSource getDataSource() {
+        HikariDataSource ds = new HikariDataSource();
+        ds.setJdbcUrl(JDBC_URL);
+        ds.setAutoCommit(false);
+        return ds;
     }
 
     /**

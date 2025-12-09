@@ -70,8 +70,12 @@ public class ATM {
      * Makes a deposit on the account represented by
      * currentAccount, using the DatabaseManager deposit method.
      */
-    public void deposit(EnumMap<Cash, Integer> bills, EnumMap<Coin, Integer> coins) throws SQLException {
+    public void deposit(EnumMap<Cash, Integer> bills, EnumMap<Coin, Integer> coins) throws SQLException, InsufficientCashException {
         double amount = calculateTransactionAmount(bills, coins);
+
+        if (amount == 0) {
+            throw new InsufficientCashException("All cash and coins fields cannot be 0.");
+        }
 
         manager.deposit(currentAccount.getCardNumber(), amount);
         updateAccount();
@@ -93,6 +97,10 @@ public class ATM {
         }
 
         double amount = calculateTransactionAmount(bills, coins);
+
+        if (amount == 0) {
+            throw new InsufficientCashException("All cash and coins fields cannot be 0.");
+        }
 
         if (amount > currentAccount.getBalance()) {
             throw new InsufficientCashException("Your account does not have enough cash to process this withdrawal.");

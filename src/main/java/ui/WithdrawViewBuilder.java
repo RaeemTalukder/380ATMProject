@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.text.TextAlignment;
 
 public class WithdrawViewBuilder extends ViewBuilder {
 
@@ -19,32 +20,47 @@ public class WithdrawViewBuilder extends ViewBuilder {
     }
 
     public Region build() {
-        BorderPane result = new BorderPane();
+        BorderPane root = new BorderPane();
+        root.getStyleClass().add("account-root");
 
-        Label heading = new Label("Please enter the amount of cash and coins you would like to withdraw.");
-        result.setTop(heading);
+        Label header = new Label("Withdraw");
+        header.getStyleClass().add("account-header");
+        root.setTop(header);
+        BorderPane.setAlignment(header, Pos.CENTER);
+        BorderPane.setMargin(header, new Insets(30, 0, 20, 0));
 
-        Region center = createCenter();
-        result.setCenter(center);
+        Region card = createCenter();
+        root.setCenter(card);
+        BorderPane.setMargin(card, new Insets(0, 40, 0, 40));
 
         Node withdrawalErrorMessage = boundLabel(model.withdrawalErrorMessageProperty());
-        result.setBottom(withdrawalErrorMessage);
+        withdrawalErrorMessage.getStyleClass().add("account-error");
 
-        BorderPane.setAlignment(heading, Pos.CENTER);
-        BorderPane.setAlignment(center, Pos.CENTER);
+        root.setBottom(withdrawalErrorMessage);
         BorderPane.setAlignment(withdrawalErrorMessage, Pos.CENTER);
+        BorderPane.setMargin(withdrawalErrorMessage, new Insets(20, 0, 30, 0));
 
-        BorderPane.setMargin(result.getTop(), new Insets(20, 0, 0, 0));
-        BorderPane.setMargin(result.getTop(), new Insets(0, 0, 20, 0));
-
-        return result;
+        return root;
     }
 
-    public Region createCenter() {
-        VBox result = new VBox(20);
+    private Region createCenter() {
+        VBox card = new VBox();
+        card.setAlignment(Pos.TOP_CENTER);
+        card.getStyleClass().add("account-card");
+        card.setFillWidth(true);
+
+        Label instructions = new Label(
+                "Please enter the amount of cash and coins you would like to withdraw."
+        );
+        instructions.getStyleClass().add("deposit-instructions");
+        instructions.setWrapText(true);
+        instructions.setTextAlignment(TextAlignment.CENTER);
+        instructions.setAlignment(Pos.CENTER);
+        instructions.setMaxWidth(Double.MAX_VALUE);
 
         HBox cashInputs = new HBox(10);
         cashInputs.setAlignment(Pos.CENTER);
+        cashInputs.getStyleClass().add("deposit-row");
 
         Region ones = labeledCurrencyInputField("Ones:", model.onesProperty());
         Region fives = labeledCurrencyInputField("Fives:", model.fivesProperty());
@@ -56,6 +72,7 @@ public class WithdrawViewBuilder extends ViewBuilder {
 
         HBox coinInputs = new HBox(10);
         coinInputs.setAlignment(Pos.CENTER);
+        coinInputs.getStyleClass().add("deposit-row");
 
         Region pennies = labeledCurrencyInputField("Pennies:", model.penniesProperty());
         Region nickels = labeledCurrencyInputField("Nickels:", model.nickelsProperty());
@@ -63,21 +80,24 @@ public class WithdrawViewBuilder extends ViewBuilder {
         Region quarters = labeledCurrencyInputField("Quarters:", model.quartersProperty());
         coinInputs.getChildren().addAll(pennies, nickels, dimes, quarters);
 
-        HBox buttons = new HBox(10);
+        HBox buttons = new HBox(20);
         buttons.setAlignment(Pos.CENTER);
 
         Button cancelButton = new Button("Cancel");
         cancelButton.setOnAction(evt -> cancelHandler.run());
+        cancelButton.getStyleClass().add("secondary-button");
+        cancelButton.setMinWidth(Region.USE_PREF_SIZE);
+
         Button withdrawButton = new Button("Withdraw");
         withdrawButton.setOnAction(evt -> withdrawHandler.run());
+        withdrawButton.getStyleClass().add("primary-button");
+        withdrawButton.setMinWidth(Region.USE_PREF_SIZE);
 
         buttons.getChildren().addAll(cancelButton, withdrawButton);
 
-        result.getChildren().addAll(cashInputs, coinInputs, buttons);
+        card.getChildren().addAll(instructions, cashInputs, coinInputs, buttons);
 
-        result.setAlignment(Pos.CENTER);
-
-        return result;
+        return card;
     }
 
 }

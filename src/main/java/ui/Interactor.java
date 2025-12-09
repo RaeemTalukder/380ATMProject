@@ -108,11 +108,13 @@ public class Interactor {
 
     public void processWithdrawButton() {
         model.setTxnSuccessMessage("");
+        model.setWithdrawalErrorMessage("");
         controller.setWithdrawScreen();
     }
 
     public void processDepositButton() {
         model.setTxnSuccessMessage("");
+        model.setDepositErrorMessage("");
         controller.setDepositScreen();
     }
 
@@ -134,6 +136,7 @@ public class Interactor {
         cash.put(TEN, model.getTens());
         cash.put(TWENTY, model.getTwenties());
         cash.put(FIFTY, model.getFifties());
+        cash.put(HUNDRED, model.getHundreds());
 
         coins.put(PENNY, model.getPennies());
         coins.put(NICKEL, model.getNickels());
@@ -144,9 +147,11 @@ public class Interactor {
             atm.withdraw(cash, coins);
         } catch (InsufficientCashException e) {
             model.setWithdrawalErrorMessage(e.getMessage());
+            clearDepositWithdrawFields();
             return;
         } catch (SQLException e) {
             model.setWithdrawalErrorMessage("Database error when withdrawing: " + e.getMessage());
+            clearDepositWithdrawFields();
             return;
         }
 
@@ -156,6 +161,7 @@ public class Interactor {
         model.setWithdrawalErrorMessage("");
         model.setBalance("$ " + atm.getCurrentAccount().getBalance());
         model.setTransactions(atm.getCurrentAccount().transactionsAsString());
+        model.setAtmCash(atm.toString());
 
         returnToAccountScreen();
     }
@@ -169,6 +175,7 @@ public class Interactor {
         cash.put(TEN, model.getTens());
         cash.put(TWENTY, model.getTwenties());
         cash.put(FIFTY, model.getFifties());
+        cash.put(HUNDRED, model.getHundreds());
 
         coins.put(PENNY, model.getPennies());
         coins.put(NICKEL, model.getNickels());
@@ -177,8 +184,14 @@ public class Interactor {
 
         try {
             atm.deposit(cash, coins);
-        } catch (SQLException e) {
+        } catch (InsufficientCashException e) {
+            model.setDepositErrorMessage(e.getMessage());
+            clearDepositWithdrawFields();
+            return;
+        }
+        catch (SQLException e) {
             model.setDepositErrorMessage("Database error when withdrawing: " + e.getMessage());
+            clearDepositWithdrawFields();
             return;
         }
 
@@ -188,6 +201,7 @@ public class Interactor {
         model.setDepositErrorMessage("");
         model.setBalance("$ " + atm.getCurrentAccount().getBalance());
         model.setTransactions(atm.getCurrentAccount().transactionsAsString());
+        model.setAtmCash(atm.toString());
 
         returnToAccountScreen();
     }

@@ -41,6 +41,7 @@ public abstract class ViewBuilder implements Builder<Region> {
 
     public Node boundLabel(StringProperty boundField) {
         Label result = new Label();
+        result.setWrapText(true);
         result.textProperty().bindBidirectional(boundField);
         result.setTextAlignment(TextAlignment.CENTER);
         return result;

@@ -5,9 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 
 public class AdminAccountViewBuilder extends ViewBuilder {
 
@@ -25,77 +24,129 @@ public class AdminAccountViewBuilder extends ViewBuilder {
     }
 
     public Region build() {
-        BorderPane result = new BorderPane();
+        BorderPane root = new BorderPane();
+        root.getStyleClass().add("account-root");
 
         Node headingLabel = boundLabel(model.greetingProperty());
-        result.setTop(headingLabel);
+        headingLabel.getStyleClass().add("account-header");
+        root.setTop(headingLabel);
+        BorderPane.setAlignment(headingLabel, Pos.CENTER);
+        BorderPane.setMargin(headingLabel, new Insets(30, 0, 0, 0));
 
-        result.setCenter(new VBox());
-
-        Region accountInfoPanel = accountInfoPanel();
-        result.setLeft(accountInfoPanel);
-
-        Region accountOptionsPanel = accountOptionsPanel();
-        result.setRight(accountOptionsPanel);
+        Region card = accountContentCard();
+        root.setCenter(card);
+        BorderPane.setMargin(card, new Insets(0, 40, 0, 40));
 
         Label txnSuccessMessage = new Label();
         txnSuccessMessage.textProperty().bindBidirectional(model.txnSuccessMessageProperty());
-        result.setBottom(txnSuccessMessage);
-
-        result.getCenter().maxWidth(0);
-        result.getCenter().maxHeight(0);
-
-        BorderPane.setAlignment(headingLabel, Pos.CENTER);
-        BorderPane.setAlignment(accountInfoPanel, Pos.TOP_CENTER);
-        BorderPane.setAlignment(accountOptionsPanel, Pos.TOP_CENTER);
+        txnSuccessMessage.getStyleClass().add("account-success");
+        root.setBottom(txnSuccessMessage);
         BorderPane.setAlignment(txnSuccessMessage, Pos.CENTER);
+        BorderPane.setMargin(txnSuccessMessage, new Insets(20, 0, 30, 0));
 
-        BorderPane.setMargin(result.getTop(), new Insets(20, 0, 0, 0));
-        BorderPane.setMargin(result.getLeft(), new Insets(50, 0, 0, 20));
-        BorderPane.setMargin(result.getRight(), new Insets(50, 100, 0, 0));
-        BorderPane.setMargin(result.getBottom(), new Insets(0, 0, 50, 0));
+        return root;
+    }
 
-        return result;
+    private Region accountContentCard() {
+        VBox card = new VBox(18);
+        card.setPadding(new Insets(8, 24, 24, 24));
+        card.setAlignment(Pos.TOP_CENTER);
+        card.getStyleClass().add("account-card");
+
+        HBox mainRow = new HBox(90, accountInfoPanel(), accountOptionsPanel());
+        mainRow.setAlignment(Pos.TOP_CENTER);
+        mainRow.getStyleClass().add("account-main-row");
+
+        Region bottomSpacer = new Region();
+        bottomSpacer.setPrefHeight(200);
+
+        card.getChildren().addAll(mainRow, bottomSpacer);
+        return card;
     }
 
     public Region accountInfoPanel() {
-        VBox result = new VBox(10,
-                new Label("Card Number:"),
-                boundLabel(model.cardNumberProperty()),
-                new Label("Balance:"),
-                boundLabel(model.balanceProperty()),
-                new Label("Transactions:"),
-                boundLabel(model.transactionsProperty())
-        );
-        result.setAlignment(Pos.TOP_CENTER);
-        return result;
+        VBox box = new VBox(10);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.getStyleClass().add("account-info-panel");
+
+        Label cardLabel = new Label("Card Number:");
+        cardLabel.getStyleClass().add("account-label");
+
+        Node cardValue = boundLabel(model.cardNumberProperty());
+        cardValue.getStyleClass().add("account-value");
+
+        Label balanceLabel = new Label("Balance:");
+        balanceLabel.getStyleClass().add("account-label");
+
+        Node balanceValue = boundLabel(model.balanceProperty());
+        balanceValue.getStyleClass().add("account-value");
+
+        Label txnLabel = new Label("Transactions:");
+        txnLabel.getStyleClass().add("account-label");
+
+        Label txnValue = (Label) boundLabel(model.transactionsProperty());
+        txnValue.getStyleClass().add("account-transactions");
+        txnValue.setMaxWidth(260);
+        txnValue.setMinHeight(Region.USE_PREF_SIZE);
+
+        ScrollPane txnScroll = new ScrollPane(txnValue);
+        txnScroll.setFitToWidth(true);
+        txnScroll.setPrefViewportHeight(200);
+        txnScroll.setMaxHeight(200);
+        txnScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        txnScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        txnScroll.getStyleClass().add("account-transactions-scroll");
+
+        box.getChildren().addAll(cardLabel, cardValue, balanceLabel, balanceValue, txnLabel, txnScroll);
+
+        return box;
     }
 
     public Region accountOptionsPanel() {
-        VBox result = new VBox(10, new Label("How may we help you?"), accountOptionsButtons());
-        result.setAlignment(Pos.TOP_CENTER);
-        return result;
+        VBox box = new VBox(12);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.getStyleClass().add("account-options-panel");
+
+        Label title = new Label("How may we help you?");
+        title.getStyleClass().add("account-options-title");
+
+        Region buttons = accountOptionsButtons();
+
+        box.getChildren().addAll(title, buttons);
+        return box;
     }
 
     public Region accountOptionsButtons() {
-        VBox result = new VBox(20);
+        HBox topRow = new HBox(20);
+        topRow.setAlignment(Pos.CENTER_LEFT);
 
         Button withdrawButton = new Button("Withdraw");
         withdrawButton.setOnAction(evt -> withdrawHandler.run());
+        withdrawButton.getStyleClass().add("primary-button");
+        withdrawButton.setMinWidth(Region.USE_PREF_SIZE);
 
         Button depositButton = new Button("Deposit");
         depositButton.setOnAction(evt -> depositHandler.run());
+        depositButton.getStyleClass().add("primary-button");
+        depositButton.setMinWidth(Region.USE_PREF_SIZE);
 
-        Button adminOptionsButton = new Button("Admin Options");
-        adminOptionsButton.setOnAction(evt -> adminOptionsHandler.run());
+        topRow.getChildren().addAll(withdrawButton, depositButton);
 
         Button logoutButton = new Button("Log Out");
         logoutButton.setOnAction(evt -> logoutHandler.run());
+        logoutButton.getStyleClass().add("danger-button");
 
-        result.getChildren().addAll(withdrawButton, depositButton, adminOptionsButton, logoutButton);
+        Button adminOptionsButton = new Button("Admin Options");
+        adminOptionsButton.setOnAction(evt -> adminOptionsHandler.run());
+        adminOptionsButton.getStyleClass().add("secondary-button");
 
-        result.setAlignment(Pos.CENTER);
-        return result;
+        VBox box = new VBox(16);
+        box.setAlignment(Pos.CENTER_LEFT);
+        box.getStyleClass().add("account-button-column");
+
+        box.getChildren().addAll(topRow, logoutButton, adminOptionsButton);
+
+        return box;
     }
 
 }

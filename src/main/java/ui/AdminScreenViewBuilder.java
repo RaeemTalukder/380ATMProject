@@ -24,49 +24,68 @@ public class AdminScreenViewBuilder extends ViewBuilder {
     }
 
     public Region build() {
-        BorderPane result = new BorderPane();
+        BorderPane root = new BorderPane();
+        root.getStyleClass().add("admin-root");
 
-        result.setTop(new Label("Dominion Bank Administrator"));
-        result.setCenter(atmCashPane());
-        result.setBottom(boundLabel(model.adminErrorMessageProperty()));
+        Label header = new Label("Dominion Bank Administrator");
+        header.getStyleClass().add("admin-header");
+        root.setTop(header);
+        BorderPane.setAlignment(header, Pos.CENTER);
+        BorderPane.setMargin(header, new Insets(30, 0, 0, 0));
 
-        BorderPane.setAlignment(result.getTop(), Pos.CENTER);
-        BorderPane.setAlignment(result.getBottom(), Pos.CENTER);
-        BorderPane.setMargin(result.getTop(), new Insets(30, 0, 0, 0));
-        BorderPane.setMargin(result.getBottom(), new Insets(0, 0, 30, 0));
+        Region card = atmCashPane();
+        root.setCenter(card);
+        BorderPane.setMargin(card, new Insets(0, 40, 0, 40));
 
-        return result;
-    }
+        Node errorLabel = boundLabel(model.adminErrorMessageProperty());
+        errorLabel.getStyleClass().add("admin-error");
+        root.setBottom(errorLabel);
+        BorderPane.setAlignment(errorLabel, Pos.CENTER);
+        BorderPane.setMargin(errorLabel, new Insets(20, 0, 30, 0));
 
-    private Region adminButtonsPanel() {
-        HBox result = new HBox(10, atmCashSetButton(), openAtmButton(), closeAtmButton());
-        result.setAlignment(Pos.CENTER);
-        return result;
+        return root;
     }
 
     private Region atmCashPane() {
-        VBox center = new VBox(20, new Label("ATM's Current Cash:\n\n"),
-                boundLabel(model.atmCashProperty()), adminButtonsPanel());
-        center.setAlignment(Pos.CENTER);
-        return center;
+        VBox card = new VBox(18);
+        card.setPadding(new Insets(24));
+        card.setAlignment(Pos.CENTER);
+        card.getStyleClass().add("admin-card");
+
+        Label cashTitle = new Label("ATM's Current Cash:");
+        cashTitle.getStyleClass().add("admin-title");
+
+        Node cashValue = boundLabel(model.atmCashProperty());
+        cashValue.getStyleClass().add("admin-cash-value");
+
+        Region buttonsRow = adminButtonsPanel();
+
+        card.getChildren().addAll(cashTitle, cashValue, buttonsRow);
+        return card;
     }
 
-    private Node atmCashSetButton() {
-        Button result = new Button("Reset ATM Cash");
-        result.setOnAction(evt -> setCashHandler.run());
-        return result;
-    }
+    private Region adminButtonsPanel() {
+        HBox row = new HBox(14);
+        row.setAlignment(Pos.CENTER);
+        row.getStyleClass().add("admin-button-row");
 
-    private Node openAtmButton() {
-        Button result = new Button("Repen ATM");
-        result.setOnAction(evt -> openAtmHandler.run());
-        return result;
-    }
+        Button resetButton = new Button("Reset ATM Cash");
+        resetButton.setOnAction(evt -> setCashHandler.run());
+        resetButton.getStyleClass().add("primary-button");
+        resetButton.setMinWidth(Region.USE_PREF_SIZE);
 
-    private Node closeAtmButton() {
-        Button result = new Button("Close ATM");
-        result.setOnAction(evt -> closeAtmHandler.run());
-        return result;
+        Button reopenButton = new Button("Reopen ATM");
+        reopenButton.setOnAction(evt -> openAtmHandler.run());
+        reopenButton.getStyleClass().add("secondary-button");
+        reopenButton.setMinWidth(Region.USE_PREF_SIZE);
+
+        Button closeButton = new Button("Close ATM");
+        closeButton.setOnAction(evt -> closeAtmHandler.run());
+        closeButton.getStyleClass().add("danger-button");
+        closeButton.setMinWidth(Region.USE_PREF_SIZE);
+
+        row.getChildren().addAll(resetButton, reopenButton, closeButton);
+        return row;
     }
 
 }

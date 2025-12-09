@@ -24,25 +24,21 @@ public class TestApp {
         } catch (InvalidPINException e) {
             System.out.println(e.getMessage());
         }
-        atm.printCurrentAccount();
-        atm.printATMCash();
-        System.out.printf("%.2f\n", atm.totalMoneyInATM());
+        atm.initializeMoney();
+
 
         EnumMap<Cash, Integer> bills = new EnumMap<>(Cash.class);
-        bills.put(Cash.FIFTY, 5);
-        bills.put(Cash.ONE, 7);
+        bills.put(Cash.HUNDRED, 500);
         EnumMap<Coin, Integer> coins = new EnumMap<>(Coin.class);
 
-        try {
-            atm.withdraw(bills, coins);
-        } catch (InsufficientCashException e) {
-            System.out.println(e.getMessage());
-        }
-
-        atm.printCurrentAccount();
-        atm.printATMCash();
-        System.out.printf("%.2f\n", atm.totalMoneyInATM());
-        atm.printTransactions();
+        System.out.println(atm.calculateTransactionAmount(bills, coins));
+        System.out.println(atm.getCurrentAccount().getBalance());
+        System.out.println(atm.calculateTransactionAmount(bills, coins) > atm.getCurrentAccount().getBalance());
+//        try {
+//            atm.withdraw(bills, coins);
+//        } catch (InsufficientCashException e) {
+//            System.out.println(e.getMessage());
+//        }
 
     }
 }

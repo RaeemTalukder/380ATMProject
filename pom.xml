@@ -40,6 +40,13 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.controls.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>6.1.0-M1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Account {
     private long cardNumber;
@@ -80,5 +81,24 @@ public class Account {
                 + (isAdmin ? "Admin privileges. " : "Not an admin. ")
                 + "Balance: " + String.format("%.2f", balance);
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Account account = (Account) o;
+        return getCardNumber() == account.getCardNumber() && getPin() == account.getPin() && isOurBranch() == account.isOurBranch() && Double.compare(getBalance(), account.getBalance()) == 0 && isAdmin() == account.isAdmin() && Objects.equals(getName(), account.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Long.hashCode(getCardNumber());
+        result = 31 * result + getPin();
+        result = 31 * result + Objects.hashCode(getName());
+        result = 31 * result + Boolean.hashCode(isOurBranch());
+        result = 31 * result + Double.hashCode(getBalance());
+        result = 31 * result + Boolean.hashCode(isAdmin());
+        return result;
     }
 }

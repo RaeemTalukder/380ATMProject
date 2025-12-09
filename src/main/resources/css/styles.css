@@ -1,0 +1,304 @@
+.root {
+    -fx-font-family: "Segoe UI", "Roboto", "Sans-Serif";
+    -fx-font-size: 13px;
+}
+
+.login-root {
+    -fx-background-color: #0b2340; /* Navy blue */
+}
+
+.login-header {
+    -fx-spacing: 4;
+}
+
+.bank-logo {
+    -fx-padding: 0 0 6 0;
+}
+
+.login-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.login-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #d0d4e0;
+}
+
+.login-card {
+    -fx-padding: 24;
+    -fx-spacing: 18;
+    -fx-alignment: center;
+
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+
+    -fx-border-color: #e3e6ec;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 15, 0, 0, 6);
+}
+
+.login-row {
+    -fx-spacing: 14;
+    -fx-padding: 4 0 4 0;
+    -fx-alignment: center;
+}
+
+.login-row > .label {
+    -fx-text-fill: #121212;
+}
+
+.text-field,
+.password-field {
+    -fx-background-color: #f7f8fb;
+    -fx-background-radius: 5;
+    -fx-border-color: #d0d4e0;
+    -fx-border-radius: 5;
+    -fx-padding: 6 10 6 10;
+}
+
+.text-field:focused,
+.password-field:focused {
+    -fx-border-color: #d9aa2b;
+    -fx-background-color: #ffffff;
+}
+
+.primary-button {
+    -fx-padding: 7 20 7 20;
+    -fx-background-radius: 6;
+    -fx-background-color: #d9aa2b;
+    -fx-text-fill: #1f2933;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #c59622;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #aa7a19;
+}
+
+.login-error {
+    -fx-text-fill: #ff4b4b;
+    -fx-font-size: 13px;
+}
+
+
+
+
+/* Initial admin screen */
+
+
+
+
+
+.admin-root {
+    -fx-background-color: #0b2340;
+}
+
+.admin-header {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.admin-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-padding: 24;
+    -fx-spacing: 18;
+    -fx-alignment: center;
+
+    -fx-border-color: #e3e6ec;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 15, 0, 0, 6);
+}
+
+.admin-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #121212;
+}
+
+.admin-cash-value {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0b2340;
+}
+
+.admin-button-row {
+    -fx-spacing: 14;
+}
+
+.secondary-button {
+    -fx-padding: 7 20 7 20;
+    -fx-background-radius: 6;
+    -fx-background-color: transparent;
+    -fx-border-color: #0b2340;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-text-fill: #0b2340;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #e7ecf5;
+}
+
+.secondary-button:pressed {
+    -fx-background-color: #d4d9e3;
+}
+
+.admin-error {
+    -fx-font-size: 13px;
+    -fx-text-fill: #ff4b4b;
+}
+
+
+
+
+/* Account screen */
+
+
+
+
+.account-root {
+    -fx-background-color: #0b2340;
+}
+
+.account-header {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.account-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-padding: 24;
+    -fx-spacing: 18;
+    -fx-alignment: center;
+
+    -fx-border-color: #e3e6ec;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 15, 0, 0, 6);
+}
+
+.account-main-row {
+    -fx-alignment: top-center;
+}
+
+.account-info-panel {
+    -fx-spacing: 8;
+    -fx-padding: 0 24 0 0;
+    -fx-border-color: #c3c7d0;
+    -fx-border-width: 0 2 0 0;
+}
+
+.account-options-panel {
+    -fx-spacing: 8;
+    -fx-padding: 0 0 0 24;
+}
+
+.account-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #121212;
+}
+
+.account-value {
+    -fx-font-size: 13px;
+    -fx-text-fill: #0b2340;
+}
+
+.account-options-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #121212;
+}
+
+.account-button-column {
+    -fx-spacing: 12;
+}
+
+.danger-button {
+    -fx-padding: 7 20 7 20;
+    -fx-background-radius: 6;
+    -fx-background-color: transparent;
+    -fx-border-color: #c0392b;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-text-fill: #c0392b;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.danger-button:hover {
+    -fx-background-color: #fbe3e0;
+}
+
+.danger-button:pressed {
+    -fx-background-color: #f3c0ba;
+}
+
+.account-success {
+    -fx-font-size: 13px;
+    -fx-text-fill: #1fbf75;
+}
+
+.account-transactions {
+    -fx-font-size: 12px;
+    -fx-text-fill: #0b2340;
+
+    -fx-background-color: #f7f8fb;
+    -fx-background-radius: 6;
+    -fx-padding: 8;
+    -fx-border-color: #e3e6ec;
+    -fx-border-radius: 6;
+}
+
+.account-transactions-scroll {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.account-transactions-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+
+
+
+/* Deposit and withdraw screens */
+
+
+
+
+.account-error {
+    -fx-text-fill: #ff4b4b;
+    -fx-font-size: 13px;
+}
+
+
+.deposit-instructions {
+    -fx-font-size: 13px;
+    -fx-text-fill: #121212;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+.deposit-row {
+    -fx-spacing: 10;
+    -fx-alignment: center;
+}
